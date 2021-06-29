@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+    <script>
+      let { effect, reactive, toRef } = VueReactivity
+      let proxy = reactive({ name: 'zf' })
+      // 将value代理到proxy['name']上
+      let nameRef = toRef(proxy, 'name')
+
+      effect(() => {
+        app.innerHTML = nameRef.value // track
+      })
+      setTimeout(() => {
+        nameRef.value = 'mj' // trigger
+      }, 1000)
+    </script>
+  </body>
+</html>

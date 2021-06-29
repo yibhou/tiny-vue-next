@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+    <script>
+      let { reactive, effect } = VueReactivity
+      let state = reactive({
+        name: 'zf',
+        age: 12,
+        arr: [1, 2, 3]
+      })
+
+      effect(() => {
+        // 调用toString join和length方法以及遍历数组，读取数组的方法和索引会触发依赖收集
+        app.innerHTML = state.arr
+      })
+      setTimeout(() => {
+        // 添加新索引时需要重新执行effect
+        state.arr[10] = 1
+      }, 1000)
+    </script>
+  </body>
+</html>

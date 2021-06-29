@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+    <script>
+      let { effect, reactive, toRefs } = VueReactivity
+      let proxy = reactive({
+        name: 'zf',
+        age: 12
+      })
+
+      // 直接解构proxy对象，name和age将失去响应式特性
+      // let { name, age } = proxy
+
+      let { name, age } = toRefs(proxy)
+
+      effect(() => {
+        app.innerHTML = name.value + ',' + age.value // track
+      })
+      setTimeout(() => {
+        name.value = 'mj' // trigger
+      }, 1000)
+    </script>
+  </body>
+</html>
